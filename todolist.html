@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+    <link rel="stylesheet" href="todolist.css">
+</head>
+
+
+<body>
+
+    <center>
+        <div style="background-color: black  ; color: aliceblue; padding: 1px; border-radius: 10px;">
+            <h2>STUDENT FORM</h2>
+        </div>
+        <br></br>
+
+        <div style="background-color: white; border-radius: 10px; padding: 10px; width: fit-content;">
+            <div class="div">
+                <table>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><input type="text" id="nam" placeholder="Enter your Name"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Age</b></td>
+                        <td><input type="number" id="ag" placeholder="Enter your Age"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Gender</b></td>
+                        <td id="gen"><input type="radio" name="Gender" value="Male">Male
+                            <input type="radio" name="Gender" value="Female">Female
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Course</b></td>
+                        <td><select id="cou" placeholder="Enter your Course">
+
+                                <option value="">Select Department</option>
+                                <option value="AI&DS">AI&DS</option>
+                                <option value="AI&ML">AI&ML</option>
+                                <option value="CSBS">CSBS</option>
+                                <option value="CSE">CSE</option>
+                                <option value="MCT">MCT</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td><b>E-mail</b></td>
+                        <td><input type="email" id="em" placeholder="Enter your Email"></td>
+                    </tr>
+                </table>
+                <button onclick="add()" style="width:200px; margin-top: 5px; background-color: lightcyan;">Save</button>
+
+            </div>
+            <br>
+
+            <!--next conatiner-->
+            <div class="div" style="background-color: beige;">
+                <table id="tb">
+                    <tr>
+                        <td><b>NAME</b></td>
+                        <td><b>AGE</b></td>
+                        <td><b>COURSE</b></td>
+                        <td><b>GENDER</b></td>
+                        <td><b>E-MAIL</b></td>
+                        <td><b>ACTION</b></td>
+                    </tr>
+
+
+                </table>
+            </div>
+        </div>
+    </center>
+
+
+    <script>
+
+        var nam = document.getElementById("nam")
+        var ag = document.getElementById("ag")
+        var gen = document.getElementById("gen")
+        // console.log(gen.textContent)
+        var cou = document.getElementById("cou")
+        var em = document.getElementById("em")
+        var t = document.getElementById("tb")
+
+
+        function add() {
+            var genderinp = document.getElementsByName("Gender");  // Get all radio buttons with name 
+            var gen = ""
+
+            for (i = 0; i < genderinp.length; i++) {
+                if (genderinp[i].checked) {
+                    gen = genderinp[i]
+                    break
+                }
+            }
+
+            // Check for empty fields
+            if (nam.value == "" || ag.value == "" || cou.value == "" || em.value == "" || gen == "") {
+                alert("Please fill all the fields before saving.");
+                return;
+            }
+
+            // Check for duplicate by comparing Name & Email
+            for (var i = 1; i < t.rows.length; i++) {
+                var rowName = t.rows[i].cells[0].innerText;
+                var rowEmail = t.rows[i].cells[4].innerText;
+                if (nam.value == rowName && em.value == rowEmail) {
+                    alert("Name & E-Mail already exist.");
+                    return;
+                }
+                else if (nam.value == rowName) {
+                    alert("Name already exist.");
+                    return;
+                }
+                else if (em.value == rowEmail) {
+                    alert("E-Mail already exist.");
+                    return;
+                }
+            }
+
+
+            var row = document.createElement("tr")
+            row.innerHTML = `<td> ${nam.value} </td> 
+                            <td>${ag.value}</td> 
+                            <td>${cou.value}</td>
+                            <td>${gen.value}</td> 
+                            <td>${em.value}</td> 
+                            <td><button onclick="del(event)" style="color:white; background-color: red;">Delete</button></td>`
+            // console.log(row.innerHTML)
+            t.append(row)
+
+
+        }
+
+        function del(event) {
+            var row = event.target.parentElement.parentElement;
+            row.remove();
+        }
+
+    </script>
+</body>
+
+</html>
